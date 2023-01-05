@@ -1,0 +1,27 @@
+{
+  "type": "login",
+  "user": {
+    "id": 8,
+    "firstName": "مصطفی",
+    "lastName": "براتی",
+    "nationalCode": "",
+    "state": null,
+    "city": null,
+    "address": "",
+    "telephone_first": "",
+    "telephone_second": "",
+    "mobile_second": "",
+    "birthdate": "0",
+    "fullName": "مصطفی براتی",
+    "mobile": "09158907872",
+    "avatar": "https://img.hyperboard.parsa.today//Users/placeholder.jpg",
+    "isHost": true,
+    "isComplete": false,
+    "hasNationalCode": false,
+    "hasDocuments": false,
+    "isCardProcessing": false,
+    "adCount": 0,
+    "unreadNotifications": 0
+  },
+  "token": "863d6f3df6e55e016071ee635bc953ff"
+}
