@@ -56,7 +56,7 @@ export default function PopularCarousel({items}) {
     
       <div className="container">
         <div className="font-IranSans">
-          <h3 className="mb-4 text-xl">
+          <h3 className="mb-4 text-xl font-bold text-fontBlack">
             تابلوهای پر طرفدار
           </h3>
         </div>
@@ -66,18 +66,19 @@ export default function PopularCarousel({items}) {
           {items ? items.map(e =>
           <>
           <div className="slick" >
-          <div className="flex flex-row-reverse flex-nowrap justify-between first:mb-12">
-          <div className="z-10 pt-8 text-black ml-8 text-center">
-              <h4>
-                {e.name}
-              </h4>
-              <h6>{e.ads} تابلو</h6>
-            </div>
+          <div className="flex flex-row flex-nowrap items-center align-middle first:mb-12">
             <img
                 src={e.image.path}
                 alt={e.image.alt}
-                className="w-3/5 h-40 ml-3 float-right rounded-large inline-flex"
+                className=" aspect-square ml-3 rounded-large inline-flex"
             />
+          <div className="z-10 pt-8 text-black ml-8 text-right">
+              <h4 className="text-lg font-bold text-fontBlack">
+                {e.name}
+              </h4>
+              <h6 className="text-sm text-fontBlack/80">{e.ads} تابلو</h6>
+            </div>
+
             
           </div>
         </div>

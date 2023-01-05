@@ -1,10 +1,10 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {(tailwindConfig: object) => object} */
 const withMT = require("@material-tailwind/react/utils/withMT");
 const colors = require('tailwindcss/colors')
 module.exports = withMT({
   content: [
-    "./node_modules/flowbite/**/*.js",
-    "./node_modules/flowbite-react/**/*.js",
+    // "./node_modules/flowbite/**/*.js",
+    // "./node_modules/flowbite-react/**/*.js",
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -57,6 +57,17 @@ module.exports = withMT({
     },
     
     extend: {
+
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-20deg)' },
+          '50%': { transform: 'rotate(20deg)' },
+        }
+      },
+      animation: {
+        wiggle: 'wiggle 2s ease-in-out infinite',
+        spinSlow: 'spin 3s linear infinite',
+      },
       backgroundImage: {
         'module-pattern': "url('../public/img/pattern.png')",
         'breadcump-pattern': "url('../public/img/backdrop-pattern.svg')",
@@ -67,6 +78,7 @@ module.exports = withMT({
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    require('tailwind-scrollbar-hide')
+    // require('flowbite/plugin')
   ],
 })

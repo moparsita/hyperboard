@@ -53,15 +53,15 @@ export default function AdSectionComponent({title,subTitle,ads = [], color}) {
     };
     return (
         
-            <div className="container">
+            <div className="container mt-16">
 
                 { title !== undefined ? (
-                    <div className="mt-8 h-auto block mb-6">
-                        <div className="text-xl text-gray-700">
+                    <div className=" h-auto block mb-6">
+                        <div className="text-xl font-bold text-fontBlack">
                             {title}
                         </div>
                         {subTitle !== undefined ? (
-                            <div className="text-sm text-gray-700 -mb-4">
+                            <div className="text-xs font-bold text-gray-500 -mb-4">
                                 {subTitle}
                             </div>
                         ): <div/>}

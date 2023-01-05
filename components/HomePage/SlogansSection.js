@@ -53,7 +53,7 @@ export default function SlogansSection({items}) {
   };
   return (
 
-<div className="container">
+<div className="container mt-16">
         
         <Carousel {...settings}>
           {items.map(e =>
@@ -67,8 +67,8 @@ export default function SlogansSection({items}) {
                       />
             </div>
             <div className="flex flex-col flex-wrap flex-grow place-content-start text-right">
-                <h4 className="text-base border-slate-800 text-center ml-2 mb-2">{e.title}</h4>
-                <p className="text-xs text-gray-700 text-center m-0">{e.detail}</p>
+                <h4 className="text-base border-slate-800  ml-2 mb-2">{e.title}</h4>
+                <p className="text-xs text-gray-700  m-0">{e.detail}</p>
             </div>
           </div>
           </div>

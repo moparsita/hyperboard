@@ -45,14 +45,14 @@ console.log(info)
       
       <Navbar />
       <header className="h-[700px] mb-12 bg-fixed bg-center bg-cover custom-img z-10 ">
-<div className="xl:w-1/3 lg:w-2/3 md:w-10/12 w-11/12 mx-auto relative  flex flex-col">
+<div className="xl:w-7/12 lg:w-2/3 md:w-10/12 w-11/12 mx-auto relative  flex flex-col">
     <h2 className="mt-72 mb-6 font-bold text-xl text-white text-center shadow-lg">اجاره فضای تبلیغاتی در هر کجای ایران بزرگ</h2>
     <div className="relative">
         <input
             type="text"
             id="mobileNumber"
             placeholder="میخوای کجا تبلیغ کنی؟"
-            className="block rounded-full px-2.5 pb-2.5 pt-2.5 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block rounded-full px-2.5 pb-2.5 pt-3 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         />
         <div className="absolute top-1 left-1">
 
@@ -65,7 +65,7 @@ console.log(info)
 
         </div>
     </div>
-    <div className="grid grid-cols-3 xl:w-3/4 lg:w-3/4 md:w-10/12 m-auto p-2">
+    <div className="grid grid-cols-3  lg:w-3/4 md:w-10/12 xl:w-10/12 m-auto p-2">
         {!isLoading &&
             info.filters ? <SearchSection items={info.filters} key={info.id}/> : <></>}
     </div>
@@ -125,7 +125,7 @@ console.log(info)
                 <AdSectionComponent title={info.sections[3].name} subTitle={info.sections[3].details}
                                     ads={info.sections[3].ads} key={info.sections[3].id}/> : <></>}
             {blogs ?
-                <BlogSectionComponent title='مجله هایپربورد' subTitle='آخرین اخبار و اطلاعیه ها' ads={blogs} key={blogs.id}/>  : <></>}
+                <BlogSectionComponent title='مجله هایپربرد' subTitle='آخرین اخبار و اطلاعیه ها' ads={blogs} key={blogs.id}/>  : <></>}
             </div>
             
           )}

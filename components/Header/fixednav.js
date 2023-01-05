@@ -116,7 +116,7 @@ useEffect(() => {
                       type="text"
                       id="mobileNumber"
                       placeholder="دنبال چی میگردی؟"
-                      className="block rounded-full px-2.5 pb-2.5 pt-2.5 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      className="block rounded-full px-2.5 pb-2.5 pt-3 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   />
                   <div className="absolute top-1 left-1">
 

@@ -54,24 +54,24 @@ export default function FastSearchCarousel({items}) {
   return (
     <div className="container">
         <div className="font-IranSans">
-          <h3 className="mb-4 text-xl">
-            تابلوهای پر طرفدار
+          <h3 className="mb-4 text-xl font-bold text-fontBlack">
+            مقاصد پر طرفدار
           </h3>
         </div>
         <Carousel {...settings}>
           {items.map(e =>
-          <div>
+          <div className="flex flex-col items-center">
             <img
                 src={e.img}
                 alt={e.name}
-                className="w-[95%] h-auto ml-3 float-right rounded-large inline-flex"
+                className="w-11/12 aspect-[9/12] ml-3 rounded-large inline-flex"
             />
-            <div className="absolute w-[95%] bottom-3  z-10  text-white text-center text-sm">
+            <div className="relative -mt-10  z-10 w-11/12 text-white text-center text-md font-bold">
               {e.name}
 
-              <span className="text-xs flex items-center justify-center">
+              <span className="text-xs font-normal flex items-center justify-center">
 
-                {e.count} فضا <IconSax.Share className="relative -top-1 mr-6 text-sm" size={16} />
+                {e.count} فضا <IconSax.Share className="relative -top-1 ml-6 text-sm" size={16} />
               </span>
             </div>
           </div>

@@ -8,7 +8,7 @@ export default function AdPageComponent({item}) {
     return (
         <>
             {/* eslint-disable-next-line react/jsx-key */}
-            {ads ? ads.map(e => <AdPagePreviewComponent ad={e}/>) : <></>}
+            {ads ? ads.map(e => <AdPagePreviewComponent ad={e} key={e.id}/>) : <></>}
         </>
     );
 }

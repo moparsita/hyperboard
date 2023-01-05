@@ -5,7 +5,7 @@ const BlogPreviewComponent = ({ad , color}) => {
 
     const AdBadge = ({type, title, icon}) => {
         return (
-            <div className="absolute right-8 top-3 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg" style={{backgroundColor: "rgb(240, 200, 7)"}}>
+            <div className="absolute right-8 top-8 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg" style={{backgroundColor: "rgb(240, 200, 7)"}}>
                 {title}
 
             </div>
@@ -14,14 +14,14 @@ const BlogPreviewComponent = ({ad , color}) => {
 
     
     return (
-        <div className="relative" dir="rtl">
+        <div className="relative w-full p-2" dir="rtl">
             <img
                 src={ad.images[0]}
                 alt=""
-                className="w-[95%] h-44 m-1 float-right rounded-large inline-flex"
+                className="aspect-video w-full m-1 float-right rounded-large inline-flex"
             />
-            <div className="absolute right-1 bottom-10 z-10 p-1 text-white text-xs flex">
-                <IconSax.Timer1 size="16" />
+            <div className="absolute right-8 bottom-10 z-10 p-1 text-white text-xs flex">
+                <IconSax.Timer1 size="16" className="ml-1" />
                 3 دقیقه
 
             </div>

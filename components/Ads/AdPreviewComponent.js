@@ -5,7 +5,7 @@ const AdPreviewComponent = ({ad , color}) => {
 
     const AdBadge = ({type, title, icon}) => {
         var classw = '';
-        type === 1 ? (classw = "absolute right-8 t-3 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg") : 
+        type === 1 ? (classw = "absolute right-6 t-3 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg") :
                        type ===2 ? (classw = "absolute left-8 top-3 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg") : 
                        (classw = "absolute right-8 top-12 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg")
                return (
@@ -23,9 +23,9 @@ const AdPreviewComponent = ({ad , color}) => {
            const AdBadge1 = ({type, title, icon}) => {
            
                    return (
-                       <div className="absolute right-8 top-3 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg">
+                       <div className="absolute right-6 top-6  z-10 px-2 text-fontBlack bg-white/90 text-center text-xs rounded-lg flex flex-row-reverse align-middle items-center">
                            {title}
-                           <img className="w-6 h-6 float-right p-2"
+                           <img className="w-6 h-6 p-2"
                                src={icon}
                                alt=""
                            />
@@ -36,9 +36,9 @@ const AdPreviewComponent = ({ad , color}) => {
                const AdBadge2 = ({type, title, icon}) => {
                 
                        return (
-                           <div className="absolute left-8 top-3 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg">
+                           <div className="absolute left-4 top-6  z-10 px-2 text-fontBlack bg-white/90 text-center text-xs rounded-lg flex flex-row-reverse align-middle items-center">
                                {title}
-                               <img className="w-6 h-6 float-right p-2"
+                               <img className="w-6 h-6 p-2"
                                    src={icon}
                                    alt=""
                                />
@@ -49,9 +49,9 @@ const AdPreviewComponent = ({ad , color}) => {
                    const AdBadge3 = ({type, title, icon}) => {
                 
                            return (
-                               <div className="absolute right-8 top-12 z-10 px-2 text-black bg-white/90 text-center text-xs rounded-lg">
+                               <div className="absolute right-6 top-14  z-10 px-2 text-fontBlack bg-white/90 text-center text-xs rounded-lg flex flex-row-reverse align-middle items-center">
                                    {title}
-                                   <img className="w-6 h-6 float-right p-2"
+                                   <img className="w-6 h-6 p-2"
                                        src={icon}
                                        alt=""
                                    />
@@ -60,13 +60,13 @@ const AdPreviewComponent = ({ad , color}) => {
                        }
     return (
         <a href={`/s/${ad.id}/${ad.slug}`}>
-        <div className="relative" dir="rtl">
+        <div className="relative w-full p-2" dir="rtl">
             <img
                 src={ad.images[0]}
                 alt=""
-                className="w-[95%] h-64 m-1 float-right rounded-large inline-flex"
+                className="aspect-video w-full m-1 float-right rounded-large inline-flex"
             />
-            <div className="absolute right-1 bottom-24 z-10 p-1 text-white bg-black/40 text-center text-sm rounded-tl-large">
+            <div className="absolute right-3 bottom-16 z-10 p-1 text-white bg-black/40 text-center text-sm rounded-tl-large">
                 از {ad.fromPrice} تومان
 
             </div>
@@ -81,7 +81,7 @@ const AdPreviewComponent = ({ad , color}) => {
                         </div>
                     ) : (
                     <div className="mr-3 mt-0">
-                <h3 className="text-sm">{ad.title}</h3>
+                <h3 className="text-sm font-bold">{ad.title}</h3>
                 <h4 className="text-xs flex">{ad.dimensions[0]} در {ad.dimensions[1]} سانتی متر . {ad.bannerType.name} . <span><IconSax.Star size={18} className="text-amber-400"/></span> {ad.average} ({ad.totalComments} نظر)
                 </h4>
                     </div>

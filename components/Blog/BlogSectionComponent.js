@@ -56,11 +56,11 @@ export default function BlogSectionComponent({title,subTitle,ads = [], color}) {
 
                 { title !== undefined ? (
                     <div className="mt-8 h-auto block mb-6">
-                        <div className="text-xl text-gray-700">
+                        <div className="text-xl font-bold text-fontBlack">
                             {title}
                         </div>
                         {subTitle !== undefined ? (
-                            <div className="text-sm text-gray-700 -mb-4">
+                            <div className="text-xs font-bold text-gray-500 -mb-4">
                                 {subTitle}
                             </div>
                         ): <div/>}

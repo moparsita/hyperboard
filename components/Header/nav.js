@@ -49,7 +49,7 @@ useEffect(() => {
   return (
     <>
     {position === "fixed" ? (
-      <nav className="fixed top-0  py-3 mb-3 w-full z-0">
+      <nav className="fixed top-0  py-3 mb-3 w-full z-20">
         <div className="container  mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between items-center lg:w-auto lg:static lg:block lg:justify-start">
             <div

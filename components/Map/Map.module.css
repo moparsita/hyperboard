@@ -1,7 +1,7 @@
 .map {
-  position: sticky;
+  position: fixed;
   height: calc(100vh - 121px);
-  top: 0px;
+  top: 145px;
   right: unset;
   z-index: 3;
   background: rgb(238, 238, 238);
