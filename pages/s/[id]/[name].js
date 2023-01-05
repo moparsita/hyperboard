@@ -16,12 +16,10 @@ import {
 } from "@material-tailwind/react";
 export default function adSingle({ad}) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [open, setOpen] = useState(0);
-    let i = 0;
-    const handleOpen = (value) => {
-        setOpen(open === value ? 0 : value);
-    };
+
     const AdPage = () => {
+        const [open, setOpen] = useState(-1);
+
         return (
             <div className="z-10">
                 <FixedNavbar />
@@ -110,7 +108,7 @@ export default function adSingle({ad}) {
     <hr className="my-3"/>
     <div className="rounded-large shadow-lg my-1 inline-block p-4 relative w-full bg-white">
         <h3 className="block text-lg font-bold flex flex-row align-middle items-center "><IconSax.I3Dcube color="#9818D6" size="36" className="ml-2"/>  اطلاعات فنی تابلو</h3>
-        <div className="grid grid-cols-2 font-bold px-5 py-2">
+        <div className="grid grid-cols-2 xl:grid-cols-4 lg:grid-cols-3  md:grid-cols-3  font-bold px-5 py-2">
             <p className=""><small>جنس بدنه: </small> {ad.material.name}</p>
             <p className=""><small>عرض تابلو: </small> {ad.dimensions.width} متر</p>
             <p className=""><small>ارتفاع تابلو: </small> {ad.dimensions.height} متر</p>
@@ -148,13 +146,18 @@ export default function adSingle({ad}) {
         {
             ad.timeTable.map(timetable => (
 
-        <Accordion open={timetable.isOpen === true}>
+        <Accordion open={open === ad.timeTable.indexOf(timetable)}>
             <AccordionHeader onClick={() => {
-                console.log(timetable)
-                timetable.isOpen = !timetable.isOpen;
+                let i = ad.timeTable.indexOf(timetable);
+                if (i !== open) {
+                    setOpen(i)
+                } else {
+                    setOpen(-1);
+                }
+
             }}>
                 <div className="flex flex-row justify-between">
-                     <IconSax.CalendarCircle color="#333333" /> {i} <span className="text-right pr-4">{timetable.day}</span>
+                     <IconSax.CalendarCircle color="#333333" />  <span className="text-right pr-4">{timetable.day}</span>
                     </div>
             </AccordionHeader>
             <AccordionBody>

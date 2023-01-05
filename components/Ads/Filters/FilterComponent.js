@@ -35,7 +35,7 @@ export default function FilterComponent({id, title, icon, types=[]}) {
                 >
                     <img src={icon} className="h-5"/> <span className="mr-2">{title}</span>
                 </DropdownToggle>
-                <DropdownMenu className="absolute invisible m-2 z-10 inline-block hidden w-[600px] text-sm translate-y-3 transition-opacity duration-300 bg-white border border-primary rounded-xlarge shadow-lg"
+                <DropdownMenu className="absolute m-2 z-10 inline-block w-[600px] text-sm translate-y-3 transition-opacity duration-300 bg-white border border-primary rounded-xlarge shadow-lg"
                               aria-labelledby="dropdownMenuButton">
                     {types.map(filters => <>
                             <div className="block mt-2 flex flex-row align-middle items-center">

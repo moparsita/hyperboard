@@ -8,18 +8,18 @@ export default function AppBar() {
                     <IconSax.Home2 />
                     <span className="text-[0.65rem]">صفحه اصلی</span>
                 </li>
-                <li className="flex flex-col justify-center align-middle items-center text-gray-500 relative w-1/5">
+                <li className="flex flex-col justify-center align-middle border-b-2 border-b-white items-center text-gray-500 relative w-1/5">
                     <IconSax.SearchNormal />
                     <span className="text-[0.65rem]">آگهی ها</span>
                 </li>
                 <li className="flex flex-col justify-center align-middle items-center text-primary bg-primary text-white shadow-md shadow-primary rounded-full h-11 w-11 -mt-7 p-1 relative ">
                     <IconSax.ShopAdd className=" " />
                 </li>
-                <li className="flex flex-col justify-center align-middle items-center text-gray-500 relative w-1/5">
+                <li className="flex flex-col justify-center align-middle border-b-2 border-b-white items-center text-gray-500 relative w-1/5">
                     <IconSax.Heart />
                     <span className="text-[0.65rem]">علاقه مندی ها</span>
                 </li>
-                <li className="flex flex-col justify-center align-middle items-center text-gray-500 relative w-1/5">
+                <li className="flex flex-col justify-center align-middle border-b-2 border-b-white items-center text-gray-500 relative w-1/5">
                     <IconSax.LogoutCurve />
                     <span className="text-[0.65rem]">ورود/ثبت نام</span>
                 </li>
