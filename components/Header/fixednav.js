@@ -5,7 +5,7 @@ import LoginModal from "../Modals/loginModal";
 import Logo from "../../public/img/icon.png"
 import { useCookies } from "react-cookie"
 import { hasCookie , getCookie, setCookie, deleteCookie } from 'cookies-next';
-export default function FixedNavbar({ fixed }) {
+export default function FixedNavbar({ fixed , full=true }) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [clientWindowHeight, setClientWindowHeight] = useState("");
@@ -50,7 +50,7 @@ useEffect(() => {
     <>
 
       <nav className={navbarOpen ? "hidden" : "fixed" + " top-0  p-3 mb-3 w-full z-50 bg-white shadow-lg"}>
-        <div className="mx-auto flex flex-wrap items-center justify-between">
+        <div className={full ? "mx-auto flex flex-wrap items-center justify-between" : "container m-auto flex flex-wrap items-center justify-between"}>
           <div className="w-auto relative flex justify-between items-center lg:w-auto lg:static lg:block lg:justify-start">
             <div
               className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded  block outline-none focus:outline-none text-gray-800"

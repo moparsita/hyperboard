@@ -13,7 +13,7 @@ import {
     Popover,
     PopoverHandler,
     PopoverContent,
-    Button,
+    Button, Checkbox, Radio
 } from "@material-tailwind/react";
 import Map from '../components/Map';
 const marker1 = [35.85, 50.96]
@@ -27,11 +27,19 @@ const submitForm = () => {
 
     const {...rest} = props;
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [rangeOpen, setRangeOpen] = useState(false);
+    const [filtersOpen, setFiltersOpen] = useState(false);
+    const [selectedEnabled, setSelectedEnabled] = React.useState("b");
     const closeDate = () => setDropdownOpen(false);
     const openDate = () => setDropdownOpen(true);
     const toggle = () => {
         setDropdownOpen((prevState) => !prevState);
-        console.log(dropdownOpen)
+    }
+    const toggleFilters = () => {
+        setFiltersOpen((prevState) => !prevState);
+    }
+    const rangeToggle = () => {
+        setRangeOpen((prevState) => !prevState);
     }
     const [filters, setFilters] = useState([]);
     const [ads, setAds] = useState([]);
@@ -44,6 +52,10 @@ const submitForm = () => {
         // if (result.isDone) {
         //     setAds(result.result);
         // }
+    }
+    const submitFilter = (value) => {
+        setSelectedEnabled(value);
+        setFiltersOpen(false)
     }
     const fetchInitialData = async () => {
         setIsLoading(true);
@@ -63,7 +75,7 @@ const submitForm = () => {
     // setUser(getCookie('user'));
   return (
     <>
-      <FixedNavbar />
+      <FixedNavbar full={true} />
 <div >
 
               <>
@@ -74,8 +86,8 @@ const submitForm = () => {
                 </>
           ):(
 
-              <div className="">
-                  <div className="flex fixed top-20 w-full  py-3 shadow-lg  z-[45] overflow-x-auto  items-center align-middle bg-[rgb(243,243,243)]">
+              <div className="bg-[rgb(243,243,243)]">
+                  <div className="flex fixed top-20 w-full  py-3 shadow-lg  z-[45] overflow-x-auto scrollbar-hide  items-center align-middle bg-[rgb(243,243,243)]">
                       <div className="w-auto mx-2">
                           <Popover
                               open={dropdownOpen}
@@ -89,7 +101,7 @@ const submitForm = () => {
                               }}
                           >
                               <PopoverHandler>
-                                  <Button className="sm:w-[150px] w-auto font-IranSans text-fontBlack font-medium flex shadow-lg mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary">
+                                  <Button className=" font-IranSans text-fontBlack font-medium flex shadow-lg mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary">
                                       <IconSax.CalendarSearch size="20" className="text-primary animate-pulse"  />
                                       <p className="mr-2">انتخاب تاریخ</p>
                                   </Button>
@@ -120,25 +132,233 @@ const submitForm = () => {
                               </PopoverContent>
                           </Popover>
                       </div>
+                      <div className="w-auto mx-2">
+                          <Popover
+                              open={rangeOpen}
+                              handler={rangeToggle}
+                              dismiss={{
+                                  enabled: true,
+                              }}
+                              animate={{
+                                  mount: { scale: 1, y: 5, x: -35 },
+                                  unmount: { scale: 0, y: 0, x: 0 },
+                              }}
+                          >
+                              <PopoverHandler>
+                                  <Button className="sm:w-[150px] w-auto font-IranSans text-fontBlack font-medium flex shadow-lg mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary">
+                                      <IconSax.Moneys size="20" className="text-primary animate-pulse"  />
+                                      <p className="mr-2">محدوده قیمت</p>
+                                  </Button>
+                              </PopoverHandler>
+                              <PopoverContent className="z-[99] font-IranSans  rounded-xlarge shadow-lg  w-[600px] text-sm">
+                                  <div className="block mt-2 flex flex-row align-middle items-center">
+                                      <div className="w-2 h-10 rounded-l-lg bg-primary block"></div>
+                                      <div className="mr-2 text-lg font-bold">محدوده قیمت</div>
+                                  </div>
+                                  <div className="p-4">
+                                      <div className="relative pt-1">
+                                          <input
+                                              type="range"
+                                              className="
+                                                      form-range
+                                                      appearance-none
+                                                      w-full
+                                                      h-6
+                                                      p-0
+                                                      bg-transparent
+                                                      text-primary
+                                                      focus:outline-none focus:ring-0 focus:shadow-none
+                                                    "
+                                              min="1000000"
+                                              max="100000000"
+                                              step="500000"
+                                              id="customRange3"
+                                          />
+                                      </div>
+                                  </div>
+                                  <div className="mt-8 mb-2 px-4 flex">
+                                      <button
+                                          onClick={() => rangeToggle()}
+                                          className="flex flex-row align-middle items-center text-white bg-primary rounded-lg px-4 py-1 mr-0 ml-auto"><IconSax.Trash size="18" className="ml-2"/> پاک کردن</button>
+                                      <button
+                                          onClick={() => rangeToggle()}
+                                          className="flex flex-row align-middle items-center text-white bg-primary rounded-lg px-4 py-1 ml-1"><IconSax.CloseCircle size="18" className="ml-2"/> بستن</button>
+                                      <button
+                                          onClick={() => rangeToggle()}
+                                          className="flex flex-row align-middle items-center text-white bg-primary rounded-lg px-4 py-1 "><IconSax.SearchNormal1 size="18" className="ml-2"/> اعمال</button>
 
-
-
-
-
-
-
+                                  </div>
+                              </PopoverContent>
+                          </Popover>
+                      </div>
                       {filters.map(e => <FilterComponent title={e.name} icon={e.icon['path']} key={e.id} types={e.filters}/>)}
-
-
                   </div>
-                  <section className="relative top-[145px] border-t left-0 right-0">
+                  <section className="relative top-[145px]  rounded-t-[20px] bg-white left-0 right-0">
                       <div className="p-0 lg:grid lg:grid-cols-2">
                           <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 ">
+                              <div className="flex flex-col  col-span-2 w-full shadow-lg p-8">
+                                  <div className="flex flex-row justify-between items-center w-full">
+                                  <h3>اجاره تابلو</h3>
+                                  <Popover
+                                      placement="bottom"
+                                      open={filtersOpen}
+                                      handler={toggleFilters}
+                                      dismiss={{
+                                          enabled: true,
+                                      }}
+                                      animate={{
+                                          mount: { scale: 1, y: 5 },
+                                          unmount: { scale: 0, y: 0 },
+                                      }}
+                                  >
+                                      <PopoverHandler>
+                                          <Button className="sm:w-[150px] w-auto font-IranSans text-fontBlack font-medium flex shadow-lg mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary">
+                                              <IconSax.Filter size="20" className="text-primary animate-pulse"  />
+                                              <p className="mr-2">مرتب سازی</p>
+                                          </Button>
+                                      </PopoverHandler>
+                                      <PopoverContent className="z-[44] font-IranSans  rounded-xlarge shadow-lg pr-0 text-sm sm:w-[150px] border border-purple-400">
 
+                                          <div className="p-0 flex flex-col justify-between items-start">
+                                              <Radio color="purple" label="ارزانترین" name="filter" value={1} ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 1}
+                                                     onChange={() => submitFilter(1)}
+                                                     icon={
+                                                         <svg
+                                                             xmlns="http://www.w3.org/2000/svg"
+                                                             className="h-3 w-3"
+                                                             viewBox="0 0 20 20"
+                                                             fill="currentColor"
+                                                         >
+                                                             <path
+                                                                 fillRule="evenodd"
+                                                                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                                 clipRule="evenodd"
+                                                             />
+                                                         </svg>
+                                                     }/>
+
+                                              <Radio color="purple" label="گرانترین" name="filter" value={2} ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 2}
+                                                     onChange={() => submitFilter(2)}
+                                                     icon={
+                                                         <svg
+                                                             xmlns="http://www.w3.org/2000/svg"
+                                                             className="h-3 w-3"
+                                                             viewBox="0 0 20 20"
+                                                             fill="currentColor"
+                                                         >
+                                                             <path
+                                                                 fillRule="evenodd"
+                                                                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                                 clipRule="evenodd"
+                                                             />
+                                                         </svg>
+                                                     }/>
+
+                                              <Radio color="purple" label="محبوب ترین" name="filter" value={3} ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 3}
+                                                     onChange={() => submitFilter(3)}
+                                                     icon={
+                                                         <svg
+                                                             xmlns="http://www.w3.org/2000/svg"
+                                                             className="h-3 w-3"
+                                                             viewBox="0 0 20 20"
+                                                             fill="currentColor"
+                                                         >
+                                                             <path
+                                                                 fillRule="evenodd"
+                                                                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                                 clipRule="evenodd"
+                                                             />
+                                                         </svg>
+                                                     }/>
+
+                                              <Radio color="purple" label="پرسفارش ترین" name="filter" value={4} ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 4}
+                                                     onChange={() => submitFilter(4)}
+                                                     icon={
+                                                         <svg
+                                                             xmlns="http://www.w3.org/2000/svg"
+                                                             className="h-3 w-3"
+                                                             viewBox="0 0 20 20"
+                                                             fill="currentColor"
+                                                         >
+                                                             <path
+                                                                 fillRule="evenodd"
+                                                                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                                 clipRule="evenodd"
+                                                             />
+                                                         </svg>
+                                                     }/>
+
+                                              <Radio color="purple" label="جدیدترین" name="filter" value={5} ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 5}
+                                                     onChange={() => submitFilter(5)}
+                                                     icon={
+                                                         <svg
+                                                             xmlns="http://www.w3.org/2000/svg"
+                                                             className="h-3 w-3"
+                                                             viewBox="0 0 20 20"
+                                                             fill="currentColor"
+                                                         >
+                                                             <path
+                                                                 fillRule="evenodd"
+                                                                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                                 clipRule="evenodd"
+                                                             />
+                                                         </svg>
+                                                     }/>
+
+                                              <Radio color="purple" label="کوچکترین" name="filter" value={6} ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 6}
+                                                     onChange={() => submitFilter(6)}
+                                                     icon={
+                                                         <svg
+                                                             xmlns="http://www.w3.org/2000/svg"
+                                                             className="h-3 w-3"
+                                                             viewBox="0 0 20 20"
+                                                             fill="currentColor"
+                                                         >
+                                                             <path
+                                                                 fillRule="evenodd"
+                                                                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                                 clipRule="evenodd"
+                                                             />
+                                                         </svg>
+                                                     }/>
+
+                                              <Radio color="purple" label="بزرگترین" name="filter" value={7} ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 7}
+                                                     onChange={() => submitFilter(7)}
+                                                     icon={
+                                                         <svg
+                                                             xmlns="http://www.w3.org/2000/svg"
+                                                             className="h-3 w-3"
+                                                             viewBox="0 0 20 20"
+                                                             fill="currentColor"
+                                                         >
+                                                             <path
+                                                                 fillRule="evenodd"
+                                                                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                                 clipRule="evenodd"
+                                                             />
+                                                         </svg>
+                                                     }/>
+                                          </div>
+
+                                      </PopoverContent>
+                                  </Popover>
+                                  </div>
+
+                              <div className="w-full">
+
+                              </div>
+                              </div>
                               <AddPageComponent item={ads} key={ads.id}/>
                           </div>
                           <div>
-                              <Map className="fixed top-0 w-full h-full sm:hidden md:hidden lg:block xl:block" center={marker1} zoom={12}>
+                              <Map className="fixed top-0 left-0 w-1/2 h-full sm:hidden md:hidden lg:block xl:block rounded-tl-[20px]" center={marker1} zoom={12}>
                                   {({TileLayer, Marker, Popup}) => (
                                       <>
                                           <TileLayer

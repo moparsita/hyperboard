@@ -64,7 +64,7 @@ const AdPreviewComponent = ({ad , color}) => {
             <img
                 src={ad.images[0]}
                 alt=""
-                className="aspect-video w-full m-1 float-right rounded-large inline-flex"
+                className="aspect-video w-full m-1 float-right rounded-large inline-flex object-cover"
             />
             <div className="absolute right-3 bottom-16 z-10 p-1 text-white bg-black/40 text-center text-sm rounded-tl-large">
                 از {ad.fromPrice} تومان

@@ -10,9 +10,9 @@ const RequestsUtils = {
             let url = `${RequestsUtils.baseUrl}/${route}/${endpoint}`;
             if (auth) {
                 if (body) {
-                    body.auth = 'd3e1e07e49371ec15344906390afff4c';
+                    body.auth = '2456fbc75deda7a46832f3e31dfa9f23';
                 } else {
-                    url += "?auth=d3e1e07e49371ec15344906390afff4c";
+                    url += "?auth=2456fbc75deda7a46832f3e31dfa9f23";
                 }
             }
             const res = await fetch(url, {

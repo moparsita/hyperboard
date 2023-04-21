@@ -3,8 +3,6 @@ const withMT = require("@material-tailwind/react/utils/withMT");
 const colors = require('tailwindcss/colors')
 module.exports = withMT({
   content: [
-    // "./node_modules/flowbite/**/*.js",
-    // "./node_modules/flowbite-react/**/*.js",
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -71,6 +69,8 @@ module.exports = withMT({
       backgroundImage: {
         'module-pattern': "url('../public/img/pattern.png')",
         'breadcump-pattern': "url('../public/img/backdrop-pattern.svg')",
+        'breadcrumbs-pattern': "url('../public/img/pattern.png')",
+        'host-pattern': "url('../public/img/host_bg1.png')",
       },
       fontFamily: {
         'IranSans': ['IranSans'],
@@ -79,6 +79,5 @@ module.exports = withMT({
   },
   plugins: [
     require('tailwind-scrollbar-hide')
-    // require('flowbite/plugin')
   ],
 })

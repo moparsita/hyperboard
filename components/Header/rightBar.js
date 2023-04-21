@@ -13,7 +13,7 @@ export default function RightBar({rightBarOpen,setRightBarOpen}) {
         leaveFrom="opacity-100 "
         leaveTo="opacity-0"
       >
-       <div className="fixed top-0 right-0 w-full h-full bg-black/60 z-40">
+       <div className="fixed top-0 right-0 w-full h-full bg-black/60 z-[90]">
        <Transition.Child
         enter="ease-linear duration-300"
         enterFrom="translate-x-80"
@@ -22,7 +22,7 @@ export default function RightBar({rightBarOpen,setRightBarOpen}) {
         leaveFrom="translate-x-0"
         leaveTo="translate-x-80"
       >
-    <div className="fixed top-0 bottom-0 h-full py-4 right-0 w-80 rounded-l-large bg-white min-h-screen">
+    <div className="fixed top-0 bottom-0 h-full py-4 right-0 w-80 rounded-l-large bg-white min-h-screen  z-[60]">
     <Transition.Child
             
               enter="ease-out duration-300 delay-300"

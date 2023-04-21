@@ -2,7 +2,7 @@ import React from "react";
 import * as IconSax from "iconsax-react";
 export default function AppBar() {
     return (
-        <div className="fixed lg:hidden xl:hidden md:relative bottom-1 border h-13 bg-white z-50 left-1 right-1 mx-2 rounded-lg shadow-md px-4 pt-2" >
+        <div className="fixed lg:hidden xl:hidden md:fixed bottom-1 border h-13 bg-white z-50 left-1 right-1 mx-2 rounded-lg shadow-md px-4 pt-2" >
             <ul className="flex flex-row justify-evenly">
                 <li className="flex flex-col justify-end align-middle items-center text-primary border-b-2 border-b-primary relative w-1/5">
                     <IconSax.Home2 />
