@@ -71,6 +71,7 @@ module.exports = withMT({
         'breadcump-pattern': "url('../public/img/backdrop-pattern.svg')",
         'breadcrumbs-pattern': "url('../public/img/pattern.png')",
         'host-pattern': "url('../public/img/host_bg1.png')",
+        'ad-image': "url('../public/img/adimage.jpg')",
       },
       fontFamily: {
         'IranSans': ['IranSans'],

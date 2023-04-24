@@ -16,15 +16,21 @@ import {
     Button, Checkbox, Radio
 } from "@material-tailwind/react";
 import Map from '../components/Map';
+import {useRouter} from "next/router";
+import CircularLoading from "../components/Loadings/CircularLoading";
 const marker1 = [35.85, 50.96]
 const marker2 = [34.85, 51.96]
 
 export default function Ads(props) {
+    const router = useRouter();
     const [user, setUser] = useState({})
 const submitForm = () => {
   // window.location = '/ads'
 }
-
+    const [dateRange, setDateRange] = useState([]);
+    const handleDateChange = (dates) => {
+        setDateRange(dates);
+    };
     const {...rest} = props;
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [rangeOpen, setRangeOpen] = useState(false);
@@ -42,13 +48,16 @@ const submitForm = () => {
         setRangeOpen((prevState) => !prevState);
     }
     const [filters, setFilters] = useState([]);
+    const [selectedFilters, setSelectedFilters] = useState({});
     const [ads, setAds] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [page, setPage] = useState(0)
     const fetchAds = async () => {
-        let result = await RequestsUtils.ads.getAds(page);
-        setAds(result.result);
+        setIsLoading(true);
 
+        let result = await RequestsUtils.ads.getAds(page, router.query.query ?? router.query.query, router.query.cityId ?? router.query.cityId, JSON.stringify(selectedFilters));
+        setAds(result.result);
+        setIsLoading(false);
         // if (result.isDone) {
         //     setAds(result.result);
         // }
@@ -69,10 +78,11 @@ const submitForm = () => {
         setIsLoading(false);
     }
     useEffect(() => {
-        fetchInitialData();
+        fetchInitialData().then(r => {});
+
     }, [])
-    console.log(ads)
-    // setUser(getCookie('user'));
+
+    // setUser(getCookie('hyperboard_user'));
   return (
     <>
       <FixedNavbar full={true} />
@@ -81,13 +91,11 @@ const submitForm = () => {
               <>
 
           {isLoading ? (
-            <>
-
-                </>
+<CircularLoading />
           ):(
 
               <div className="bg-[rgb(243,243,243)]">
-                  <div className="flex fixed top-20 w-full  py-3 shadow-lg  z-[45] overflow-x-auto scrollbar-hide  items-center align-middle bg-[rgb(243,243,243)]">
+                  <div className="flex fixed top-20 w-full  py-3 shadow-sm  z-[45] overflow-x-auto scrollbar-hide  items-center align-middle bg-[rgb(243,243,243)]">
                       <div className="w-auto mx-2">
                           <Popover
                               open={dropdownOpen}
@@ -101,26 +109,25 @@ const submitForm = () => {
                               }}
                           >
                               <PopoverHandler>
-                                  <Button className=" font-IranSans text-fontBlack font-medium flex shadow-lg mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary">
-                                      <IconSax.CalendarSearch size="20" className="text-primary animate-pulse"  />
+                                  <Button className=" font-IranSans text-fontBlack font-medium flex shadow-sm mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-fontBlack/20 hover:bg-gray-100 hover:text-primary">
+                                      <IconSax.CalendarSearch size="20" className="text-gray-700 animate-pulse"  />
                                       <p className="mr-2">انتخاب تاریخ</p>
                                   </Button>
                               </PopoverHandler>
-                              <PopoverContent className="z-[99] font-IranSans  rounded-xlarge shadow-lg  w-[600px] text-sm">
+                              <PopoverContent className="z-[99] font-IranSans  rounded-xlarge shadow-sm  w-[600px] text-sm">
                                   <div className="block mt-2 flex flex-row align-middle items-center">
-                                      <div className="w-2 h-10 rounded-l-lg bg-primary block"></div>
+                                      <div className="w-2 h-10 rounded-l-lg bg-fontBlack block"></div>
                                       <div className="mr-2 text-lg font-bold">انتخاب تاریخ</div>
                                   </div>
                                   <div className="p-4">
                                       <ConfigProvider locale={fa_IR} direction="rtl">
-                                          <DatePickerJalali.RangePicker/>
-
+                                          <DatePickerJalali.RangePicker onChange={handleDateChange}/>
                                       </ConfigProvider>
                                   </div>
                                   <div className="mt-8 mb-2 px-4 flex">
                                       <button
                                           onClick={() => toggle()}
-                                          className="flex flex-row align-middle items-center text-white bg-primary rounded-lg px-4 py-1 mr-0 ml-auto"><IconSax.Trash size="18" className="ml-2"/> پاک کردن</button>
+                                          className="flex flex-row align-middle items-center border border-gray text-white bg-gray-700 rounded-lg px-4 py-1 mr-0 ml-auto"><IconSax.Trash size="18" className="ml-2"/> پاک کردن</button>
                                       <button
                                           onClick={() => closeDate()}
                                           className="flex flex-row align-middle items-center text-white bg-primary rounded-lg px-4 py-1 ml-1"><IconSax.CloseCircle size="18" className="ml-2"/> بستن</button>
@@ -145,12 +152,12 @@ const submitForm = () => {
                               }}
                           >
                               <PopoverHandler>
-                                  <Button className="sm:w-[150px] w-auto font-IranSans text-fontBlack font-medium flex shadow-lg mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary">
-                                      <IconSax.Moneys size="20" className="text-primary animate-pulse"  />
+                                  <Button className="sm:w-[150px] w-auto font-IranSans text-fontBlack font-medium flex shadow-sm mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-fontBlack/20 hover:bg-gray-100 hover:text-primary">
+                                      <IconSax.Moneys size="20" className="text-gray-700 animate-pulse"  />
                                       <p className="mr-2">محدوده قیمت</p>
                                   </Button>
                               </PopoverHandler>
-                              <PopoverContent className="z-[99] font-IranSans  rounded-xlarge shadow-lg  w-[600px] text-sm">
+                              <PopoverContent className="z-[99] font-IranSans  rounded-xlarge shadow-sm  w-[600px] text-sm">
                                   <div className="block mt-2 flex flex-row align-middle items-center">
                                       <div className="w-2 h-10 rounded-l-lg bg-primary block"></div>
                                       <div className="mr-2 text-lg font-bold">محدوده قیمت</div>
@@ -191,12 +198,12 @@ const submitForm = () => {
                               </PopoverContent>
                           </Popover>
                       </div>
-                      {filters.map(e => <FilterComponent title={e.name} icon={e.icon['path']} key={e.id} types={e.filters}/>)}
+                      {filters.map(e => <FilterComponent title={e.name} icon={e.icon['path']} key={e.id} types={e.filters} filter={filters} setFilter={setFilters} selectedFilter={selectedFilters} setSelectedFilter={setSelectedFilters} func={fetchInitialData}/>)}
                   </div>
                   <section className="relative top-[145px]  rounded-t-[20px] bg-white left-0 right-0">
                       <div className="p-0 lg:grid lg:grid-cols-2">
                           <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 ">
-                              <div className="flex flex-col  col-span-2 w-full shadow-lg p-8">
+                              <div className="flex flex-col  col-span-2 w-full shadow-sm p-8">
                                   <div className="flex flex-row justify-between items-center w-full">
                                   <h3>اجاره تابلو</h3>
                                   <Popover
@@ -212,12 +219,12 @@ const submitForm = () => {
                                       }}
                                   >
                                       <PopoverHandler>
-                                          <Button className="sm:w-[150px] w-auto font-IranSans text-fontBlack font-medium flex shadow-lg mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary">
-                                              <IconSax.Filter size="20" className="text-primary animate-pulse"  />
+                                          <Button className="sm:w-[150px] w-auto font-IranSans text-fontBlack font-medium flex shadow-sm mr-2 relative z-30 p-2 items-center text-sm rounded-lg border border-fontBlack hover:bg-gray-100 hover:text-primary">
+                                              <IconSax.Filter size="20" className="text-gray-700 animate-pulse"  />
                                               <p className="mr-2">مرتب سازی</p>
                                           </Button>
                                       </PopoverHandler>
-                                      <PopoverContent className="z-[44] font-IranSans  rounded-xlarge shadow-lg pr-0 text-sm sm:w-[150px] border border-purple-400">
+                                      <PopoverContent className="z-[44] font-IranSans  rounded-xlarge shadow-sm pr-0 text-sm sm:w-[150px] border border-fontBlack">
 
                                           <div className="p-0 flex flex-col justify-between items-start">
                                               <Radio color="purple" label="ارزانترین" name="filter" value={1} ripple={true} className="w-6 h-6 border-primary"

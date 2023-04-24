@@ -1,6 +1,7 @@
 import AuthRoute from "./routes/auth_route";
 import AdsRoute from "./routes/ads_route";
 import DataRoute from "./routes/data_route";
+import DashboardRoute from "./routes/dashboard_route";
 
 const RequestsUtils = {
     baseUrl: "https://api.hyperboard.parsa.today/v1",
@@ -29,6 +30,7 @@ const RequestsUtils = {
     auth: new AuthRoute(),
     ads: new AdsRoute(),
     data: new DataRoute(),
+    dashboard: new DashboardRoute(),
 
 
     player_id: async () => {

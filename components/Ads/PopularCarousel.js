@@ -66,7 +66,8 @@ export default function PopularCarousel({items}) {
           {items ? items.map(e =>
           <>
           <div className="slick" >
-          <div className="flex flex-row flex-nowrap items-center align-middle first:mb-12">
+            <a href={`/ads?cityId=${e.id}`}>
+            <div className="flex flex-row flex-nowrap items-center align-middle first:mb-12">
             <img
                 src={e.image.path}
                 alt={e.image.alt}
@@ -81,6 +82,7 @@ export default function PopularCarousel({items}) {
 
             
           </div>
+            </a>
         </div>
         
         

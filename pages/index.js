@@ -36,10 +36,11 @@ const submitForm = () => {
     }
     useEffect(() => {
         fetchInitialData();
+        console.log(info)
     }, [])
 
 console.log(info)
-    // setUser(getCookie('user'));
+    // setUser(getCookie('hyperboard_user'));
   return (
     <>
       

@@ -2,6 +2,7 @@ import React from "react";
 import { Transition } from '@headlessui/react'
 import * as IconSax from "iconsax-react";
 import Link from "next/link";
+import {getCookie, hasCookie} from "cookies-next";
 export default function RightBar({rightBarOpen,setRightBarOpen}) {
   return (
     <Transition show={rightBarOpen}>
@@ -46,12 +47,23 @@ export default function RightBar({rightBarOpen,setRightBarOpen}) {
             className="w-full text-gray-900 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             <div className="flex justify-around border-b p-5">
                 <IconSax.User size="42" className="border-2 rounded-full p-1" />
-                <button
-                    role="submit"
-                    className="shadow-lg rounded-full border bg-purple-700 px-8 py-2 text-lg font-bold text-white shadow-sm hover:bg-purple-900 f focus:bg-purple-900 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                    ورود / ثبت نام
-                </button>
+                {hasCookie('hyperboard_user') ? (
+
+                    <button
+                        onClick={() => window.location.href = '/host'}
+                        className="shadow-lg rounded-full border bg-purple-700 px-8 py-2 text-lg font-bold text-white shadow-sm hover:bg-purple-900 f focus:bg-purple-900 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    >
+                        {JSON.parse(getCookie('hyperboard_user')).user.fullName}
+                    </button>
+
+                ) : (
+                    <button
+                        role="submit"
+                        className="shadow-lg rounded-full border bg-purple-700 px-8 py-2 text-lg font-bold text-white shadow-sm hover:bg-purple-900 f focus:bg-purple-900 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    >
+                        ورود / ثبت نام
+                    </button>
+                )}
             </div>
             <Link href="#"
 

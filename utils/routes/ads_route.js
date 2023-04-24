@@ -11,7 +11,7 @@ class AdsRoute {
         });
     };
 
-    getAds = async (page) => {
+    getAds = async (page, query = '', cities= '', filters = '', date = '', price = '', sortType ='جدید ترین',) => {
         return await makeRequest({
             route: AdsRoute.route,
             endpoint: 'search',
@@ -19,6 +19,12 @@ class AdsRoute {
             auth: true,
             body: {
                 page: page,
+                query: query,
+                cities: cities,
+                filters: filters,
+                date: date,
+                price: price,
+                sortType: sortType,
             },
         });
     };
@@ -59,6 +65,53 @@ class AdsRoute {
                 description: description,
                 firstCategoryId: categoryId,
                 secondCategoryId: secondCategoryId,
+            }
+        });
+    }
+
+    addType = async ({id, thirdCategoryId ,}) => {
+        return await makeRequest({
+            route: AdsRoute.route,
+            endpoint: 'add-type/'+id,
+            type: "POST",
+            auth: true,
+            body: {
+                thirdCategoryId: thirdCategoryId,
+            }
+        });
+    }
+
+    addTechnical = async ({id, height, width, materialId, bannerTypeId, lightingTypeId, hasRotation, hasLighting,}) => {
+        return await makeRequest({
+            route: AdsRoute.route,
+            endpoint: 'add-technical/'+id,
+            type: "POST",
+            auth: true,
+            body: {
+                height: height,
+                width: width,
+                materialId: materialId,
+                bannerTypeId: bannerTypeId,
+                lightingTypeId: lightingTypeId,
+                hasRotation: hasRotation,
+                hasLighting: hasLighting,
+            }
+        });
+    }
+
+    addViewOptions = async ({id, viewDuration, viewerSpeed, viewConditionId, viewerTypeId, viewerAgeId, gender,}) => {
+        return await makeRequest({
+            route: AdsRoute.route,
+            endpoint: 'dd-view-options/'+id,
+            type: "POST",
+            auth: true,
+            body: {
+                viewDuration: viewDuration,
+                viewerSpeed: viewerSpeed,
+                viewConditionId: viewConditionId,
+                viewerTypeId: viewerTypeId,
+                viewerAgeId: viewerAgeId,
+                gender: gender,
             }
         });
     }

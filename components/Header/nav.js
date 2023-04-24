@@ -79,14 +79,14 @@ useEffect(() => {
             <ul className="flex flex-col items-center lg:flex-row list-none lg:ml-auto w-full">
               <li className="nav-item">
                   {
-                      hasCookie('user') ? (
+                      hasCookie('hyperboard_user') ? (
                           <button
                               className="px-3 py-2 flex items-center text-base  font-bold leading-snug text-white hover:opacity-75"
                               onClick={() => setModalOpen(!modalOpen)}
 
                           >
 
-                              <span className="ml-2">{JSON.parse(getCookie('user')).user.fullName}</span>
+                              <span className="ml-2">{JSON.parse(getCookie('hyperboard_user')).user.fullName}</span>
                           </button>
                       ) : (
                 <button

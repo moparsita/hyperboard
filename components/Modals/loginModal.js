@@ -20,7 +20,7 @@ export default function LoginModal({open, setOpen}) {
               setTitle('کلمه عبور اشتباه است'),
               setPassword('');
           } else {
-              setCookie("user", JSON.stringify(userData));
+              setCookie("hyperboard_user", JSON.stringify(userData));
               setOpen(false)
           }
       }
@@ -44,7 +44,7 @@ export default function LoginModal({open, setOpen}) {
   }
   const cancelButtonRef = useRef(null)
     const logout = () => {
-      deleteCookie('user');
+      deleteCookie('hyperboard_user');
       setOpen(false)
     }
   return (
@@ -107,10 +107,10 @@ export default function LoginModal({open, setOpen}) {
 
                   </>
                 ) : (
-                    hasCookie('user') ? (
+                    hasCookie('hyperboard_user') ? (
                         <>
                         <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                            <h3>{JSON.parse(getCookie('user')).user.fullName}</h3>
+                            <h3>{JSON.parse(getCookie('hyperboard_user')).user.fullName}</h3>
                         </div>
                             <div className=" px-4 py-3 text-center ">
 
