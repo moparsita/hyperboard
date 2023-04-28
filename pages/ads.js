@@ -35,7 +35,7 @@ const submitForm = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [rangeOpen, setRangeOpen] = useState(false);
     const [filtersOpen, setFiltersOpen] = useState(false);
-    const [selectedEnabled, setSelectedEnabled] = React.useState("b");
+    const [selectedEnabled, setSelectedEnabled] = useState("");
     const closeDate = () => setDropdownOpen(false);
     const openDate = () => setDropdownOpen(true);
     const toggle = () => {
@@ -55,7 +55,7 @@ const submitForm = () => {
     const fetchAds = async () => {
         setIsLoading(true);
 
-        let result = await RequestsUtils.ads.getAds(page, router.query.query ?? router.query.query, router.query.cityId ?? router.query.cityId, JSON.stringify(selectedFilters));
+        let result = await RequestsUtils.ads.getAds(page, router.query.query ?? router.query.query, router.query.cityId ?? router.query.cityId, JSON.stringify(selectedFilters), '', '', selectedEnabled);
         setAds(result.result);
         setIsLoading(false);
         // if (result.isDone) {
@@ -64,6 +64,7 @@ const submitForm = () => {
     }
     const submitFilter = (value) => {
         setSelectedEnabled(value);
+        fetchAds();
         setFiltersOpen(false)
     }
     const fetchInitialData = async () => {
@@ -86,7 +87,7 @@ const submitForm = () => {
   return (
     <>
       <FixedNavbar full={true} />
-<div >
+<div className="block w-full">
 
               <>
 
@@ -227,9 +228,9 @@ const submitForm = () => {
                                       <PopoverContent className="z-[44] font-IranSans  rounded-xlarge shadow-sm pr-0 text-sm sm:w-[150px] border border-fontBlack">
 
                                           <div className="p-0 flex flex-col justify-between items-start">
-                                              <Radio color="purple" label="ارزانترین" name="filter" value={1} ripple={true} className="w-6 h-6 border-primary"
-                                                     checked={selectedEnabled === 1}
-                                                     onChange={() => submitFilter(1)}
+                                              <Radio color="purple" label="جدید ترین" name="filter" value='جدید ترین' ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 'جدید ترین'}
+                                                     onChange={() => submitFilter('جدید ترین')}
                                                      icon={
                                                          <svg
                                                              xmlns="http://www.w3.org/2000/svg"
@@ -245,9 +246,9 @@ const submitForm = () => {
                                                          </svg>
                                                      }/>
 
-                                              <Radio color="purple" label="گرانترین" name="filter" value={2} ripple={true} className="w-6 h-6 border-primary"
-                                                     checked={selectedEnabled === 2}
-                                                     onChange={() => submitFilter(2)}
+                                              <Radio color="purple" label="ارزانترین" name="filter" value='ارزانترین' ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 'ارزانترین'}
+                                                     onChange={() => submitFilter('ارزانترین')}
                                                      icon={
                                                          <svg
                                                              xmlns="http://www.w3.org/2000/svg"
@@ -263,9 +264,9 @@ const submitForm = () => {
                                                          </svg>
                                                      }/>
 
-                                              <Radio color="purple" label="محبوب ترین" name="filter" value={3} ripple={true} className="w-6 h-6 border-primary"
-                                                     checked={selectedEnabled === 3}
-                                                     onChange={() => submitFilter(3)}
+                                              <Radio color="purple" label="گرانترین" name="filter" value='گرانترین' ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 'گرانترین'}
+                                                     onChange={() => submitFilter('گرانترین')}
                                                      icon={
                                                          <svg
                                                              xmlns="http://www.w3.org/2000/svg"
@@ -281,9 +282,9 @@ const submitForm = () => {
                                                          </svg>
                                                      }/>
 
-                                              <Radio color="purple" label="پرسفارش ترین" name="filter" value={4} ripple={true} className="w-6 h-6 border-primary"
-                                                     checked={selectedEnabled === 4}
-                                                     onChange={() => submitFilter(4)}
+                                              <Radio color="purple" label="کوچک ترین" name="filter" value='کوچک ترین' ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 'کوچک ترین'}
+                                                     onChange={() => submitFilter('کوچک ترین')}
                                                      icon={
                                                          <svg
                                                              xmlns="http://www.w3.org/2000/svg"
@@ -299,9 +300,9 @@ const submitForm = () => {
                                                          </svg>
                                                      }/>
 
-                                              <Radio color="purple" label="جدیدترین" name="filter" value={5} ripple={true} className="w-6 h-6 border-primary"
-                                                     checked={selectedEnabled === 5}
-                                                     onChange={() => submitFilter(5)}
+                                              <Radio color="purple" label="بزرگترین" name="filter" value='بزرگترین' ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 'بزرگترین'}
+                                                     onChange={() => submitFilter('بزرگترین')}
                                                      icon={
                                                          <svg
                                                              xmlns="http://www.w3.org/2000/svg"
@@ -317,9 +318,9 @@ const submitForm = () => {
                                                          </svg>
                                                      }/>
 
-                                              <Radio color="purple" label="کوچکترین" name="filter" value={6} ripple={true} className="w-6 h-6 border-primary"
-                                                     checked={selectedEnabled === 6}
-                                                     onChange={() => submitFilter(6)}
+                                              <Radio color="purple" label="پرسفارش ترین" name="filter" value='پر سفارش ترین' ripple={true} className="w-6 h-6 border-primary"
+                                                     checked={selectedEnabled === 'پر سفارش ترین'}
+                                                     onChange={() => submitFilter('پر سفارش ترین')}
                                                      icon={
                                                          <svg
                                                              xmlns="http://www.w3.org/2000/svg"
@@ -335,23 +336,8 @@ const submitForm = () => {
                                                          </svg>
                                                      }/>
 
-                                              <Radio color="purple" label="بزرگترین" name="filter" value={7} ripple={true} className="w-6 h-6 border-primary"
-                                                     checked={selectedEnabled === 7}
-                                                     onChange={() => submitFilter(7)}
-                                                     icon={
-                                                         <svg
-                                                             xmlns="http://www.w3.org/2000/svg"
-                                                             className="h-3 w-3"
-                                                             viewBox="0 0 20 20"
-                                                             fill="currentColor"
-                                                         >
-                                                             <path
-                                                                 fillRule="evenodd"
-                                                                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                                                 clipRule="evenodd"
-                                                             />
-                                                         </svg>
-                                                     }/>
+
+
                                           </div>
 
                                       </PopoverContent>

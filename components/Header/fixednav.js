@@ -9,13 +9,15 @@ export default function FixedNavbar({ fixed , full=true }) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [clientWindowHeight, setClientWindowHeight] = useState("");
-
+  const [query, setQuery] = useState('')
   const [backgroundTransparacy, setBackgroundTransparacy] = useState(0);
   const [padding, setPadding] = useState(30);
   const [boxShadow, setBoxShadow] = useState(0);
   const [position, setPosition] = useState("fixed");
   const [nav2, setNav2] = useState(false);
-
+  const submitForm = () => {
+    window.location = '/ads?query=' + query
+  }
   const [y, setY] = useState();
 const handleNavigation = useCallback(
   e => {
@@ -113,6 +115,7 @@ useEffect(() => {
               <li className="nav-item w-96">
                 <div className="relative">
                   <input
+                      onChange={(event => setQuery(event.target.value))}
                       type="text"
                       id="mobileNumber"
                       placeholder="دنبال چی میگردی؟"

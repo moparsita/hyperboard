@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from 'react'
+import {Fragment, useEffect, useRef, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import RequestsUtils from '../../utils/RequestsUtils'
@@ -6,45 +6,103 @@ import * as IconSax from "iconsax-react";
 import { useCookies } from "react-cookie"
 import userData from '../../data/userData.json';
 import {getCookie, setCookie, deleteCookie, hasCookie} from 'cookies-next';
+import SignIn from "../Forms/SignIn";
+import Login from "../Forms/login";
+import Verification from "../Forms/verification";
+import Register from "../Forms/register";
 export default function LoginModal({open, setOpen}) {
   const [info, setInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [mobile, setMobile] = useState();
-  const [password, setPassword] = useState();
   const [title, setTitle] = useState('برای ورود یا ثبت نام شماره همراه خود را وارد کنید');
   const [userMobile, setUserMobile] = useState();
-  const initUser = async () => {
-      setIsLoading(true);
-      if(password){
-          if(password != "1234") {
-              setTitle('کلمه عبور اشتباه است'),
-              setPassword('');
-          } else {
-              setCookie("hyperboard_user", JSON.stringify(userData));
-              setOpen(false)
-          }
-      }
-      else {
-          if (mobile === '09123614799' || mobile === '09158907872' || mobile === '09396329984' || mobile === '09152926106') {
-              setUserMobile(mobile);
-              setTitle('کلمه عبور خود را وارد کنید')
-          } else {
-              setUserMobile('');
-              setTitle('شماره همراه وارد شده اشتباه است')
-          }
-      }
-      // let result = await RequestsUtils.auth.init(mobile);
-      // setInfo(result.result);
-      // console.log(result.result)
-      // if (!result.isDone) {
-      //     setFilters(result.result);
-      //     console.log(result.result)
-      // }
-      setIsLoading(false);
-  }
+
+
+    const [signed, setSigned] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    const [number, setNumber] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [password, setPassword] = useState("");
+    const [step, setStep] = useState('init');
+    const [code, setCode] = useState("");
+    const [error, setError] = useState("");
+
+    const editNumber = () => {
+        setNumber('');
+        setError('');
+        setStep('init');
+    };
+
+    const init = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        console.log(number)
+        let result = await RequestsUtils.auth.init(number);
+        if (result && result.isDone) {
+            if(result.result.type === 'register'){
+                setStep('validate')
+            } else {
+                setStep('login')
+            }
+
+            setIsLoading(false);
+        }
+    }
+
+    const login = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        let result = await RequestsUtils.auth.login(number, password);
+        console.log(result.result)
+        if (result && result.isDone) {
+            setCookie("hyperboard_token", JSON.stringify(result.result.token));
+            setCookie("hyperboard_user", JSON.stringify(result.result.user));
+            setSigned(true);
+            setError('');
+            setOpen(false)
+            // window.location.reload()
+            setIsLoading(false);
+        } else {
+            setError('کلمه عبور وارد شده اشتباه است. دوباره تلاش کنید')
+        }
+
+    };
+
+    const register = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        let result = await RequestsUtils.auth.register(firstName, lastName, password, code, number);
+        if (result && result.isDone) {
+            setCookie("hyperboard_token", JSON.stringify(result.result.token));
+            setCookie("hyperboard_user", JSON.stringify(result.result.user));
+            setSigned(true);
+            setOpen()
+            setIsLoading(false);
+        }
+
+    };
+
+    const validate = async (e) => {
+        e.preventDefault();
+        setError('');
+        setIsLoading(true);
+        let result = await RequestsUtils.auth.validate(number, code);
+        if (result && result.isDone) {
+            setStep(result.result.type)
+            setIsLoading(false);
+        }
+
+    };
+
+    useEffect(() => {
+        setTimeout(() => setLoading(false), 2000);
+        if (getCookie('hyperboard_user') !== '') setSigned(true)
+    });
   const cancelButtonRef = useRef(null)
     const logout = () => {
-      deleteCookie('hyperboard_user');
+      // deleteCookie('hyperboard_user');
       setOpen(false)
     }
   return (
@@ -110,14 +168,14 @@ export default function LoginModal({open, setOpen}) {
                     hasCookie('hyperboard_user') ? (
                         <>
                         <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                            <h3>{JSON.parse(getCookie('hyperboard_user')).user.fullName}</h3>
+                            <h3>{JSON.parse(getCookie('hyperboard_user')).fullName}</h3>
                         </div>
                             <div className=" px-4 py-3 text-center ">
 
                                 <button
                                     role="submit"
                                     className=" rounded-full border bg-purple-700 px-8 py-2 text-lg font-bold text-white shadow-sm hover:bg-purple-900 f focus:bg-purple-900 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                    onClick={() => logout() }
+                                    onClick={() => window.location.href = '/host' }
                                 >
                                     ادامه
                                 </button>
@@ -125,96 +183,124 @@ export default function LoginModal({open, setOpen}) {
                         ) : (
                   <>
                   <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <form>
-                    {userMobile ? (
-                        <>
-                            <div className="mt-3">
-                                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                                    ورود / ثبت نام
-                                </Dialog.Title>
-                                <div className="mt-2">
-                                    <p className="text-sm text-gray-500">
-                                        {title}
-                                    </p>
+{/*                <form>*/}
+{/*                    {userMobile ? (*/}
+{/*                        <>*/}
+{/*                            <div className="mt-3">*/}
+{/*                                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">*/}
+{/*                                    ورود / ثبت نام*/}
+{/*                                </Dialog.Title>*/}
+{/*                                <div className="mt-2">*/}
+{/*                                    <p className="text-sm text-gray-500">*/}
+{/*                                        {title}*/}
+{/*                                    </p>*/}
 
-                                    <div className="relative mt-3" id="mobile">
+{/*                                    <div className="relative mt-3" id="mobile">*/}
 
-                                        <input
-                                            type="text"
-                                            id="mobileNumber"
-                                            disabled
-                                            className="block rounded-large px-2.5 pb-2.5 pt-2.5 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                            placeholder="+98"
-                                            dir='ltr'
-                                            value={userMobile}
-                                        />
-                                        <div className="absolute top-0 right-2">
+{/*                                        <input*/}
+{/*                                            type="text"*/}
+{/*                                            id="mobileNumber"*/}
+{/*                                            disabled*/}
+{/*                                            className="block rounded-large px-2.5 pb-2.5 pt-2.5 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"*/}
+{/*                                            placeholder="+98"*/}
+{/*                                            dir='ltr'*/}
+{/*                                            value={userMobile}*/}
+{/*                                        />*/}
+{/*                                        <div className="absolute top-0 right-2">*/}
 
-                                            <button
-                                                className="h-10 w-20 text-green rounded-lg bg-red-500 hover:bg-red-600"
-                                                onClick={() => setUserMobile('') }><IconSax.TickSquare />
+{/*                                            <button*/}
+{/*                                                className="h-10 w-20 text-green rounded-lg bg-red-500 hover:bg-red-600"*/}
+{/*                                                onClick={() => setUserMobile('') }><IconSax.TickSquare />*/}
 
-                                            </button>
+{/*                                            </button>*/}
 
-                                        </div>
-                                        <input
-                                            type="text"
-                                            id="password"
-                                            required
-                                            placeholder="رمز عبور"
-                                            className="block rounded-large mt-2 px-2.5 pb-2.5 pt-2.5 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                            onChange={(e) => setPassword(e.target.value)}
-                                        />
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                    <div className="mt-3">
-                      <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                        ورود / ثبت نام
-                      </Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                            {title}
-                        </p>
-
-<div className="relative mt-3" id="mobile">
-
-    <input
-        type="text"
-        id="mobileNumber"
-        required
-        className="block rounded-large px-2.5 pb-2.5 pt-2.5 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        dir='ltr'
-        placeholder="+98"
-        value={mobile}
-        onChange={(e) => setMobile(e.target.value)}
-         />
-    <label for="mobileNumber" className="absolute px-1 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-0 scale-85 bg-white top-2 z-10 origin-[0] right-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">شماره همراه</label>
-
-    </div>
+{/*                                        </div>*/}
+{/*                                        <input*/}
+{/*                                            type="text"*/}
+{/*                                            id="password"*/}
+{/*                                            required*/}
+{/*                                            placeholder="رمز عبور"*/}
+{/*                                            className="block rounded-large mt-2 px-2.5 pb-2.5 pt-2.5 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"*/}
+{/*                                            onChange={(e) => setPassword(e.target.value)}*/}
+{/*                                        />*/}
 
 
-                      </div>
-                    </div>
-                        </>
-                    )}
-                </form>
+{/*                                    </div>*/}
+{/*                                </div>*/}
+{/*                            </div>*/}
+{/*                        </>*/}
+{/*                    ) : (*/}
+{/*                        <>*/}
+{/*                    <div className="mt-3">*/}
+{/*                      <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">*/}
+{/*                        ورود / ثبت نام*/}
+{/*                      </Dialog.Title>*/}
+{/*                      <div className="mt-2">*/}
+{/*                        <p className="text-sm text-gray-500">*/}
+{/*                            {title}*/}
+{/*                        </p>*/}
+
+{/*<div className="relative mt-3" id="mobile">*/}
+
+{/*    <input*/}
+{/*        type="text"*/}
+{/*        id="mobileNumber"*/}
+{/*        required*/}
+{/*        className="block rounded-large px-2.5 pb-2.5 pt-2.5 w-full text-sm text-gray-900  border  border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"*/}
+{/*        dir='ltr'*/}
+{/*        placeholder="+98"*/}
+{/*        value={mobile}*/}
+{/*        onChange={(e) => setMobile(e.target.value)}*/}
+{/*         />*/}
+{/*    <label for="mobileNumber" className="absolute px-1 text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-0 scale-85 bg-white top-2 z-10 origin-[0] right-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">شماره همراه</label>*/}
+
+{/*    </div>*/}
+
+
+{/*                      </div>*/}
+{/*                    </div>*/}
+{/*                        </>*/}
+{/*                    )}*/}
+{/*                </form>*/}
+                      {step === 'init' ? (
+                          <SignIn
+                              submitHandler={init}
+                              closeFunc={setOpen}
+                              num={number}
+                              changeNumber={setNumber}
+                          />
+                      ) : step === 'login' ? (
+                          <Login
+                              submitHandler={login}
+                              closeFunc={setOpen}
+                              editNumber={editNumber}
+                              num={number}
+                              password={password}
+                              error={error}
+                              changePassword={setPassword}
+                          />
+                      ) : step === 'validate' ? (
+                              <Verification
+                                  submitHandler={validate}
+                                  closeFunc={setOpen}
+                                  num={number}
+                                  changeCode={setCode}
+                                  enteredCode={code}
+                              />
+                          ) :
+                          <Register
+                              submitHandler={register}
+                              closeFunc={setOpen}
+                              editNumber={editNumber}
+                              firstName={firstName}
+                              lastName={lastName}
+                              password={password}
+                              changePassword={setPassword}
+                              changeFirstName={setFirstName}
+                              changeLastName={setLastName}
+                          />}
                 </div>
-                <div className=" px-4 py-3 text-center ">
 
-                  <button
-                    role="submit"
-                    className=" rounded-full border bg-purple-700 px-8 py-2 text-lg font-bold text-white shadow-sm hover:bg-purple-900 f focus:bg-purple-900 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={() => (mobile) && initUser(mobile) }
-                  >
-                    ادامه
-                  </button>
-                </div>
                 </>
                     )
                 )}

@@ -7,14 +7,15 @@ export default function PopularCarousel({items}) {
   
   const settings = {
     mobileFirst:true,
+
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
     arrows: false,
-    rows: 2,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -22,7 +23,7 @@ export default function PopularCarousel({items}) {
           dots: false,
           infinite: false,
           speed: 500,
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 1,
           autoplay: true,
         }
@@ -54,7 +55,7 @@ export default function PopularCarousel({items}) {
   };
   return (
     
-      <div className="container">
+      <div className="" dir='rtl'>
         <div className="font-IranSans">
           <h3 className="mb-4 text-xl font-bold text-fontBlack">
             تابلوهای پر طرفدار
@@ -65,26 +66,25 @@ export default function PopularCarousel({items}) {
         <Carousel {...settings}>
           {items ? items.map(e =>
           <>
-          <div className="slick" >
-            <a href={`/ads?cityId=${e.id}`}>
-            <div className="flex flex-row flex-nowrap items-center align-middle first:mb-12">
+            <a href={`/ads?cityId=${e.id}`} className="m-2">
+            <div className="flex flex-col items-center align-middle mx-2 first:mb-12">
             <img
                 src={e.image.path}
                 alt={e.image.alt}
-                className=" aspect-square ml-3 rounded-large inline-flex"
+                className=" aspect-square rounded-large w-full"
             />
-          <div className="z-10 pt-8 text-black ml-8 text-right">
+          <div className=" w-fit text-black flex flex-row flex-wrap justify-between">
               <h4 className="text-lg font-bold text-fontBlack">
                 {e.name}
+                <span className="text-sm text-fontBlack/80">{" "}({e.ads} تابلو)</span>
               </h4>
-              <h6 className="text-sm text-fontBlack/80">{e.ads} تابلو</h6>
+
             </div>
 
             
           </div>
             </a>
-        </div>
-        
+
         
           </>
         

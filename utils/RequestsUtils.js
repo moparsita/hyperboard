@@ -2,24 +2,30 @@ import AuthRoute from "./routes/auth_route";
 import AdsRoute from "./routes/ads_route";
 import DataRoute from "./routes/data_route";
 import DashboardRoute from "./routes/dashboard_route";
+import {getCookie} from "cookies-next";
 
 const RequestsUtils = {
     baseUrl: "https://api.hyperboard.parsa.today/v1",
 
     makeRequest: async ({route, endpoint, type = "GET", body, auth = false, headers = {},}) => {
         try {
+            let token = getCookie('hyperboard_token') != null ? getCookie('hyperboard_token').toString().replaceAll('\"', '') : '';
+            console.log(token)
             let url = `${RequestsUtils.baseUrl}/${route}/${endpoint}`;
             if (auth) {
                 if (body) {
-                    body.auth = '2456fbc75deda7a46832f3e31dfa9f23';
+                    body.auth = token;
                 } else {
-                    url += "?auth=2456fbc75deda7a46832f3e31dfa9f23";
+                    url += "?auth=" + token;
                 }
             }
             const res = await fetch(url, {
                 method: type,
                 body: body ? JSON.stringify(body) : null,
-                headers: headers,
+                headers: {
+                    "Content-Type": "application/json",
+                    "auth": token ? token.toString() : null,
+                },
             });
             let isDone = res.status.toString().startsWith('2');
             return {isDone: isDone, status: res.status, result: await res.json(),};

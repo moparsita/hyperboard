@@ -15,11 +15,15 @@ import ModuleSection from "../components/HomePage/ModuleSection";
 import BlogSectionComponent from "../components/Blog/BlogSectionComponent";
 import * as IconSax from "iconsax-react";
 import SearchSection from "../components/HomePage/SearchSection";
+import {deleteCookie} from "cookies-next";
 
 export default function Home() {
+    // deleteCookie("hyperboard_token");
+    // deleteCookie("hyperboard_user");
     const [user, setUser] = useState({})
+    const [query, setQuery] = useState('')
 const submitForm = () => {
-  window.location = '/ads'
+  window.location = '/ads?query=' + query
 }
 
   const [info, setInfo] = useState({});
@@ -50,6 +54,7 @@ console.log(info)
     <h2 className="mt-72 mb-6 font-bold text-xl text-white text-center shadow-lg">اجاره فضای تبلیغاتی در هر کجای ایران بزرگ</h2>
     <div className="relative">
         <input
+            onChange={(event => setQuery(event.target.value))}
             type="text"
             id="mobileNumber"
             placeholder="میخوای کجا تبلیغ کنی؟"
@@ -107,7 +112,7 @@ console.log(info)
             
             <div className="container m-auto z-10">
               {info.cities ? <PopularCarousel items={info.cities} key={info.id}/> : <></>}
-              {info.quickSearchItems ? <FastSearchCarousel items={info.quickSearchItems} key={info.id}/> : <></>}
+              {/*{info.quickSearchItems ? <FastSearchCarousel items={info.quickSearchItems} key={info.id}/> : <></>}*/}
               {info.features ? <SlogansSection items={info.features} key={info.id}/> : <></>}
               {info.modules && info.modules.length >= 1 ? 
             <ModuleSection items={info.modules[0]}/> : <></>}

@@ -60,30 +60,33 @@ const AdPreviewComponent = ({ad , color}) => {
                        }
     return (
         <a href={`/s/${ad.id}/${ad.slug}`}>
-        <div className="relative w-full p-2" dir="rtl">
-            <img
+        <div className="w-full p-2 flex flex-col" dir="rtl">
+            <div className="relative">
+                <img
                 src={ad.images[0]}
                 alt=""
-                className="aspect-video w-full m-1 float-right rounded-large inline-flex object-cover"
+                className="aspect-video w-full m-1 float-right rounded-large inline-flex object-cover block"
             />
-            <div className="absolute right-3 bottom-16 z-10 p-1 text-white bg-black/40 text-center text-sm rounded-tl-large">
-                از {ad.fromPrice} تومان
 
-            </div>
+            {/*<div className="absolute right-3 bottom-16 z-10 p-1 text-white bg-black/40 text-center text-sm rounded-tl-large">*/}
+            {/*    از {ad.fromPrice} تومان*/}
+
+            {/*</div>*/}
             <AdBadge1 type='1' title={ad.firstCategory.name} icon={ad.firstCategory.icon.path}/>
             <AdBadge2 type='2' title={ad.secondCategory.name} icon={ad.secondCategory.icon.path}/>
             <AdBadge3 type='3' title={ad.thirdCategory.name} icon={ad.thirdCategory.icon.path}/>
-
+            </div>
                 {color == "white" ? (
                         <div className="mr-3 mt-0">
                             <h3 className="text-white text-sm">{ad.title}</h3>
                             <h4 className="text-white text-xs flex">{ad.dimensions[0]} در {ad.dimensions[1]} سانتی متر . {ad.bannerType.name} . <span><IconSax.Star className="icon_star-filled"/></span> {ad.average} ({ad.totalComments} نظر)</h4>
                         </div>
                     ) : (
-                    <div className="mr-3 mt-0">
-                <h3 className="text-sm font-bold">{ad.title}</h3>
-                <h4 className="text-xs flex">{ad.dimensions[0]} در {ad.dimensions[1]} سانتی متر . {ad.bannerType.name} . <span><IconSax.Star size={18} className="text-amber-400"/></span> {ad.average} ({ad.totalComments} نظر)
-                </h4>
+                    <div className="mt-3 mr-2 block w-full">
+                    <h3 className="text-sm font-bold px-4 flex justify-between"><span>{ad.title}</span> <span className="font-light">  از {ad.fromPrice} تومان</span></h3>
+
+                {/*<h4 className="text-xs flex">{ad.dimensions[0]} در {ad.dimensions[1]} سانتی متر . {ad.bannerType.name} . <span><IconSax.Star size={18} className="text-amber-400"/></span> {ad.average} ({ad.totalComments} نظر)*/}
+                {/*</h4>*/}
                     </div>
                     )}
 
