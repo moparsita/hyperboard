@@ -2,9 +2,16 @@ import React from "react";
 import { Transition } from '@headlessui/react'
 import * as IconSax from "iconsax-react";
 import Link from "next/link";
-import {getCookie, hasCookie} from "cookies-next";
-export default function RightBar({rightBarOpen,setRightBarOpen}) {
-  return (
+import {deleteCookie, getCookie, hasCookie} from "cookies-next";
+export default function RightBar({rightBarOpen,setRightBarOpen, setOpen, open}) {
+    if(rightBarOpen !== true) setRightBarOpen(false);
+    function logout() {
+        deleteCookie("hyperboard_user");
+        window.location.href = '/'
+    }
+
+
+    return (
     <Transition show={rightBarOpen}>
     <Transition.Child
         enter="ease-linear duration-300"
@@ -53,11 +60,12 @@ export default function RightBar({rightBarOpen,setRightBarOpen}) {
                         onClick={() => window.location.href = '/host'}
                         className="shadow-lg rounded-full border bg-purple-700 px-8 py-2 text-lg font-bold text-white shadow-sm hover:bg-purple-900 f focus:bg-purple-900 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     >
-                        {JSON.parse(getCookie('hyperboard_user')).user.fullName}
+                        {JSON.parse(getCookie('hyperboard_user')).fullName}
                     </button>
 
                 ) : (
                     <button
+                        onClick={() => setOpen(!open)}
                         role="submit"
                         className="shadow-lg rounded-full border bg-purple-700 px-8 py-2 text-lg font-bold text-white shadow-sm hover:bg-purple-900 f focus:bg-purple-900 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     >
@@ -136,14 +144,14 @@ export default function RightBar({rightBarOpen,setRightBarOpen}) {
                 <p className="mr-2">درباره ما</p>
                 <IconSax.ArrowLeft2 size="20" className="mr-auto ml-0 text-gray-500 hover:text-primary"   />
             </Link>
-            <Link href="#"
-
-                  className="flex shadow-lg relative m-5 p-3  items-center text-sm font-medium rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-2  dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+            <button
+                onClick={() => logout()}
+                  className="flex shadow-lg relative m-5 p-3 w-[17.5rem] items-center text-sm font-medium rounded-lg border border-purple-400 hover:bg-gray-100 hover:text-primary focus:z-10 focus:ring-2  dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                 <IconSax.LogoutCurve size="20" className="text-primary"  />
                 <p className="mr-2">خروج</p>
                 <IconSax.ArrowLeft2 size="20" className="mr-auto ml-0 text-gray-500 hover:text-primary"   />
 
-            </Link>
+            </button>
         </div>
 
     </div>

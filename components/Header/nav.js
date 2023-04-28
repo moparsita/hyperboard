@@ -19,7 +19,6 @@ export default function Navbar({ fixed }) {
   const [y, setY] = useState();
 const handleNavigation = useCallback(
   e => {
-    setNavbarOpen(navbarOpen);
     const window = e.currentTarget;
     if(y>680) {
       setPosition("");
@@ -82,11 +81,11 @@ useEffect(() => {
                       hasCookie('hyperboard_user') ? (
                           <button
                               className="px-3 py-2 flex items-center text-base  font-bold leading-snug text-white hover:opacity-75"
-                              onClick={() => setModalOpen(!modalOpen)}
+                              onClick={() => window.location.href = '/host'}
 
                           >
 
-                              <span className="ml-2">{JSON.parse(getCookie('hyperboard_user')).user.fullName}</span>
+                              <span className="ml-2">{JSON.parse(getCookie('hyperboard_user')).fullName}</span>
                           </button>
                       ) : (
                 <button
@@ -158,6 +157,17 @@ nav2 ? (
           >
             <ul className="flex flex-col items-center lg:flex-row list-none lg:ml-auto w-full">
               <li className="nav-item">
+                  {
+                      hasCookie('hyperboard_user') ? (
+                          <button
+                              className="px-3 py-2 flex items-center text-base  font-bold leading-snug hover:opacity-75"
+                              onClick={() => setModalOpen(!modalOpen)}
+
+                          >
+
+                              <span className="ml-2">{JSON.parse(getCookie('hyperboard_user')).fullName}</span>
+                          </button>
+                      ) : (
                 <button
                   className="px-3 py-2 flex items-center text-base  font-bold leading-snug text-gray-700 hover:opacity-75"
                   onClick={() => setModalOpen(!modalOpen)}
@@ -165,6 +175,7 @@ nav2 ? (
                   
                   <span className="ml-2">ورود / ثبت نام</span>
                 </button>
+                          )}
               </li>
               <li className="nav-item">
                 <a
@@ -202,7 +213,7 @@ nav2 ? (
 </>)
 )}
 
-        <RightBar rightBarOpen={navbarOpen} setRightBarOpen={setNavbarOpen} />
+        <RightBar rightBarOpen={navbarOpen} setRightBarOpen={setNavbarOpen} open={modalOpen} setOpen={setModalOpen} />
       
         <LoginModal open={modalOpen} setOpen={setModalOpen} />
         
